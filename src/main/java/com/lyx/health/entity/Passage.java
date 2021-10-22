@@ -25,7 +25,11 @@ public class Passage extends Model<Passage> {
     private int id;
 
     @TableField(value = "passage_title")
-    private Long passageTitle;
+    private String passageTitle;
+
+    @TableField(value = "passage_small_title")
+    private String passageSmallTitle;
+
 
     @TableField(value = "passage_content")
     private String passageContent;
@@ -34,7 +38,7 @@ public class Passage extends Model<Passage> {
     private String passageCategory;
 
     @TableField(value = "passage_img")
-    private String passage_img;
+    private String passageImg;
 
 
 
