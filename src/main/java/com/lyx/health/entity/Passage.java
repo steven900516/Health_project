@@ -2,6 +2,7 @@ package com.lyx.health.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 @TableName("passage")
+@ApiModel(value="文章对象")
 public class Passage extends Model<Passage> {
+
+
 
     @TableId(value = "id",type = IdType.AUTO)
     private int id;
@@ -40,6 +44,7 @@ public class Passage extends Model<Passage> {
     @TableField(value = "passage_img")
     private String passageImg;
 
-
+    @TableField(value = "passage_lei")
+    private String passageLei;
 
 }

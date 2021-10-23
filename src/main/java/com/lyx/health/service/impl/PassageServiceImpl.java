@@ -1,5 +1,7 @@
 package com.lyx.health.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lyx.health.entity.Passage;
 import com.lyx.health.mapper.PassageMapper;
@@ -11,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,6 +30,9 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
 
     @Autowired
     private PassageMapper passageMapper;
+
+    @Autowired
+    private PassageService passageService;
 
     @Override
     public void addPassage() throws Exception {
@@ -74,4 +80,18 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
 
         return passageMapper.selectList(null);
     }
+
+    @Override
+    public Page<Passage> listAllByPage(Page page) {
+        return passageService.page(page,null);
+    }
+
+    @Override
+    public List<Passage> listByLei(String passageLei) {
+        QueryWrapper<Passage> wq = new QueryWrapper<>();
+        wq.eq("passage_lei","#" + passageLei);
+        return passageService.list(wq);
+    }
+
+
 }
