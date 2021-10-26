@@ -45,6 +45,8 @@ public class JsonResponse<R> implements Serializable {
         return message(false, message);
     }
 
+
+
     public JsonResponse<R> setOtherData(Map<String, Object> otherData) {
         this.otherData = otherData;
         return this;

@@ -71,7 +71,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType="query", name = "userEmail", value = "邮箱",  dataType = "String"),
     })
-    @ApiResponses({ @ApiResponse(code = 200, message = "登陆成功，message字段返回6位验证码;邮箱格式错误，message字段返回fail字符串")})
+    @ApiResponses({ @ApiResponse(code = 200, message = "发送邮件成功，message字段返回6位验证码;邮箱格式错误，message字段返回fail字符串")})
     private JsonResponse sendEmail(@RequestParam(value = "userEmail") String  userEmail){
         String code = null;
         try {
