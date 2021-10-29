@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lyx.health.entity.Passage;
 import com.lyx.health.mapper.PassageMapper;
 import com.lyx.health.service.PassageService;
+import com.lyx.health.service.RedisService;
 import com.lyx.health.util.PassageGet;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -33,6 +34,9 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
 
     @Autowired
     private PassageService passageService;
+
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public void addPassage() throws Exception {
@@ -83,7 +87,13 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
 
     @Override
     public Page<Passage> listAllByPage(Page page) {
-        return passageService.page(page,null);
+        Page res = passageService.page(page, null);
+        List<Passage> passages = res.getRecords();
+        for(Passage passage: passages){
+            int count = Integer.parseInt(redisService.get("passageLike-" + passage.getId()));
+            passage.setPassageLike(count);
+        }
+        return res;
     }
 
     @Override
@@ -91,6 +101,16 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
         QueryWrapper<Passage> wq = new QueryWrapper<>();
         wq.eq("passage_lei","#" + passageLei);
         return passageService.list(wq);
+    }
+
+    @Override
+    public int pressLike(int id) {
+        //无id
+        if(redisService.get("passageLike-" + id) == null){
+            return -1;
+        }
+        redisService.increment("passageLike-" + id,1l);
+        return Integer.parseInt(redisService.get("passageLike-" + id));
     }
 
 

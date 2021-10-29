@@ -39,6 +39,9 @@ public class Question extends Model<Question> {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date questionTime;
 
+    @TableField(value = "question_uid")
+    private String questionUid;
+
 
     @TableField(exist = false)
     private int like;

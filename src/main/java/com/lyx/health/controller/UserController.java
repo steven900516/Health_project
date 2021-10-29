@@ -6,9 +6,13 @@ import com.lyx.health.service.EmailService;
 import com.lyx.health.service.PassageService;
 import com.lyx.health.service.UserService;
 import com.lyx.health.util.JsonResponse;
+
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Steven0516
@@ -47,6 +51,8 @@ public class UserController {
 
     }
 
+
+
     @RequestMapping(value = "/login",method = {RequestMethod.POST,RequestMethod.GET})
     @ApiOperation(value = "用户登录", notes = "参数包含（userName,userPwd）")
     @ApiImplicitParams({
@@ -54,11 +60,17 @@ public class UserController {
             @ApiImplicitParam(paramType="query", name = "userPwd", value = "用户密码",  dataType = "String"),
     })
     @ApiResponses({ @ApiResponse(code = 200, message = "若密码错误，message字段返回字符串fail，若登陆成功返回success") })
-    private JsonResponse login(@RequestParam(value = "userName") String  userName,@RequestParam(value = "userPwd") String  userPwd){
+    private JsonResponse login(@RequestParam(value = "userName") String  userName, @RequestParam(value = "userPwd") String  userPwd,
+                               HttpServletResponse response){
+
         User user = userService.login(userName,userPwd);
         if(user == null){
             return JsonResponse.failure("fail");
         }else{
+            Cookie loginStatus = new Cookie("uid",String.valueOf(user.getId()));
+            Cookie loginStatus2 = new Cookie("username",user.getUserName());
+            response.addCookie(loginStatus);
+            response.addCookie(loginStatus2);
             return JsonResponse.successMessage("success");
         }
 

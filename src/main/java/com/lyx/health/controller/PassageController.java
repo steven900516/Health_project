@@ -1,9 +1,11 @@
 package com.lyx.health.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lyx.health.entity.Passage;
 import com.lyx.health.mapper.PassageMapper;
 import com.lyx.health.service.PassageService;
+import com.lyx.health.service.RedisService;
 import com.lyx.health.util.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -28,6 +30,8 @@ import java.util.List;
 public class PassageController {
     @Autowired
     private PassageService passageService;
+    @Autowired
+    private RedisService redisService;
 
 
     @RequestMapping(value = "/listAll",method = {RequestMethod.POST,RequestMethod.GET})
@@ -62,6 +66,29 @@ public class PassageController {
     }
 
 
+//    @RequestMapping(value = "/passageLike")
+//    private void passageLike(){
+//        QueryWrapper<Passage> list = new QueryWrapper<>();
+//        List<Passage> list1 = passageService.list(list);
+//        for (Passage  passage: list1){
+//            redisService.set("passageLike-" + passage.getId(), "0");
+//        }
+//    }
+
+    @RequestMapping(value = "/pressLike",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "文章点赞", notes = "参数包含文章id（id）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "文章id",  dataType = "Integer")
+
+    })
+    private JsonResponse pressLike(@RequestParam(value = "id") Integer id){
+        int count = passageService.pressLike(id);
+        System.out.println(count);
+        if(count < 0){
+            return JsonResponse.success(-1);
+        }
+        return JsonResponse.success(count);
+    }
 
 
 }

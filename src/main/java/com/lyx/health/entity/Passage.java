@@ -47,4 +47,7 @@ public class Passage extends Model<Passage> {
     @TableField(value = "passage_lei")
     private String passageLei;
 
+    @TableField(exist = false)
+    private int passageLike;
+
 }

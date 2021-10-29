@@ -107,12 +107,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public int pressLike(int id) {
 
         //无id
-
-
         if(redisService.get("like-" + id) == null){
             return -1;
         }
-
         redisService.increment("like-" + id,1l);
         return Integer.parseInt(redisService.get("like-" + id));
     }
