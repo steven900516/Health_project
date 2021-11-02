@@ -91,4 +91,16 @@ public class PassageController {
     }
 
 
+
+    @RequestMapping(value = "/onePassage",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "根据id获取一篇文章", notes = "参数包含（id）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "文章id",  dataType = "Integer")
+
+    })
+    private JsonResponse onePassage(@RequestParam(value = "id") Integer id){
+        return JsonResponse.success(passageService.onePassage(id));
+    }
+
+
 }

@@ -113,5 +113,13 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
         return Integer.parseInt(redisService.get("passageLike-" + id));
     }
 
+    @Override
+    public Passage onePassage(int id) {
+        Passage one = passageService.getById(id);
+        String s = redisService.get("passageLike-" + id);
+        one.setPassageLike(Integer.parseInt(s));
+        return one;
+    }
+
 
 }

@@ -25,4 +25,7 @@ public interface PassageService extends IService<Passage> {
     public List<Passage> listByLei(String passageLei);
 
     public int pressLike(int id);
+
+
+    public Passage onePassage(int id);
 }

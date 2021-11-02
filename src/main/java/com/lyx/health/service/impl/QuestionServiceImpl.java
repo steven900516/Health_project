@@ -1,14 +1,10 @@
 package com.lyx.health.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lyx.health.entity.Passage;
 import com.lyx.health.entity.Question;
-import com.lyx.health.mapper.PassageMapper;
 import com.lyx.health.mapper.QuestionMapper;
-import com.lyx.health.service.PassageService;
 import com.lyx.health.service.QuestionService;
 import com.lyx.health.service.RedisService;
 import com.lyx.health.util.QuestionGet;
@@ -19,8 +15,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -95,12 +89,21 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public void sendQuestion() {
-        List<Question> all = questionService.list(null);
-        for(Question q: all){
-            redisService.set("like-" + q.getId(), "0");
-            redisService.set("comment-" + q.getId(),"0");
+    public String sendQuestion(Question question) {
+        Date now = new Date();
+        question.setQuestionTime(now);
+        try{
+            questionMapper.insert(question);
+            int id = question.getId();
+            redisService.set("like-" + id,"0");
+            redisService.set("comment-" + id,"0");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "false";
         }
+        return "success";
+
     }
 
     @Override
@@ -112,6 +115,30 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         }
         redisService.increment("like-" + id,1l);
         return Integer.parseInt(redisService.get("like-" + id));
+    }
+
+    @Override
+    public List<Question> showQuestionsOfOnePerson(Integer question_uid) {
+        QueryWrapper<Question> wq = new QueryWrapper<>();
+        wq.eq("question_uid",question_uid);
+        wq.orderByDesc("question_time");
+        List<Question> questions = questionMapper.selectList(wq);
+        for(Question question: questions){
+            question.setLike(Integer.parseInt(redisService.get("like-" + question.getId())));
+            question.setComment(Integer.parseInt(redisService.get("comment-" + question.getId())));
+        }
+        return questions;
+    }
+
+    @Override
+    public Question oneQuestion(int id) {
+        Question question = questionService.getById(id);
+        String like = redisService.get("like-" + id);
+        String comment = redisService.get("comment-" + id);
+        question.setLike( Integer.parseInt(like));
+        question.setComment(Integer.parseInt(comment));
+        return question;
+
     }
 
 

@@ -3,10 +3,12 @@ package com.lyx.health.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import com.lyx.health.entity.Answer;
 import com.lyx.health.entity.Passage;
 import com.lyx.health.entity.Question;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Steven0516
@@ -20,7 +22,12 @@ public interface QuestionService extends IService<Question> {
 
     public Page<Question> listQuestionByPage(Page page);
 
-    public void sendQuestion();
+    public String sendQuestion(Question question);
 
     public int pressLike(int id);
+
+    public List<Question> showQuestionsOfOnePerson(Integer question_uid);
+
+
+    public Question oneQuestion(int id);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 /**
  * @author Steven0516
@@ -69,9 +70,14 @@ public class UserController {
         }else{
             Cookie loginStatus = new Cookie("uid",String.valueOf(user.getId()));
             Cookie loginStatus2 = new Cookie("username",user.getUserName());
+            loginStatus.setPath("/");
+            loginStatus2.setPath("/");
             response.addCookie(loginStatus);
             response.addCookie(loginStatus2);
-            return JsonResponse.successMessage("success");
+            HashMap<String, String> userStates = new HashMap<>();
+            userStates.put("uid",String.valueOf(user.getId()));
+            userStates.put("username",user.getUserName());
+            return JsonResponse.success(userStates);
         }
 
     }
@@ -94,5 +100,8 @@ public class UserController {
         }
         return JsonResponse.successMessage(code);
     }
+
+
+
 
 }

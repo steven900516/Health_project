@@ -10,6 +10,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Steven0516
  * @create 2021-10-25
@@ -24,10 +26,7 @@ public class QuestionController {
     private QuestionService questionService;
 
 
-//    @RequestMapping("/redis")
-//    public void redis(){
-//        questionService.sendQuestion();
-//    }
+
 
 
     @RequestMapping(value = "/listQuestionByPage",method = {RequestMethod.POST,RequestMethod.GET})
@@ -53,9 +52,9 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/pressLike",method = {RequestMethod.POST,RequestMethod.GET})
-    @ApiOperation(value = "问答点赞", notes = "参数包含文章id（id），code字段为正确响应码")
+    @ApiOperation(value = "问答点赞", notes = "参数包含问答id（id），code字段为正确响应码")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType="query", name = "id", value = "文章id", required = false, dataType = "Integer")})
+            @ApiImplicitParam(paramType="query", name = "id", value = "问答id", required = false, dataType = "Integer")})
     @ApiResponses({ @ApiResponse(code = 200, message = "若点赞成功，返回原来点赞数 + 1;若点赞失败，返回-1")})
     private JsonResponse pressLike(@RequestParam(value = "id") Integer id){
         int count = questionService.pressLike(id);
@@ -63,6 +62,43 @@ public class QuestionController {
             return JsonResponse.success(-1);
         }
         return JsonResponse.success(count);
+    }
+
+
+    @RequestMapping(value = "/sendQuestion",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "问答发布", notes = "参数包含用户id（questionUid），问答标题（questionTitile），问答详情（questionContent）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "questionUid", value = "用户id", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "questionTitile", value = "问答标题", required = false, dataType = "String"),
+            @ApiImplicitParam(paramType="query", name = "questionContent", value = "问答详情（内容）", required = false, dataType = "String"),
+    })
+    @ApiResponses({ @ApiResponse(code = 200, message = "若发布问题成功，返回success字符串;若发布问题失败，返回false字符串")})
+    private JsonResponse sendQuestion(Question question){
+        String status = questionService.sendQuestion(question);
+        return JsonResponse.success(status);
+    }
+
+
+    @RequestMapping(value = "/questionsOfOnePerson",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "展示一个人发布的所有问题", notes = "参数包含用户id（questionUid）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "questionUid", value = "用户id", required = false, dataType = "Integer")
+    })
+    private JsonResponse questionsOfOnePerson(@RequestParam(value = "questionUid")Integer questionUid){
+        List<Question> questions = questionService.showQuestionsOfOnePerson(questionUid);
+
+        return JsonResponse.success(questions);
+    }
+
+
+    @RequestMapping(value = "/oneQuesition",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "根据id找获取问题", notes = "参数包含问题id")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "id", required = false, dataType = "Integer")
+    })
+    private JsonResponse oneQuesition(@RequestParam(value = "id")Integer id){
+        Question question = questionService.oneQuestion(id);
+        return JsonResponse.success(question);
     }
 
 
