@@ -69,6 +69,7 @@ public class QuestionController {
     @ApiOperation(value = "问答发布", notes = "参数包含用户id（questionUid），问答标题（questionTitile），问答详情（questionContent）")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType="query", name = "questionUid", value = "用户id", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "questionUserName", value = "用户名字", required = false, dataType = "String"),
             @ApiImplicitParam(paramType="query", name = "questionTitile", value = "问答标题", required = false, dataType = "String"),
             @ApiImplicitParam(paramType="query", name = "questionContent", value = "问答详情（内容）", required = false, dataType = "String"),
     })

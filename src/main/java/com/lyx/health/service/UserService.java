@@ -14,4 +14,6 @@ public interface UserService extends IService<User> {
     public User selectUserRepeat(String userName);
 
     public User login(String userName,String userPwd);
+
+    public String updateUser(int id,String new_Name);
 }

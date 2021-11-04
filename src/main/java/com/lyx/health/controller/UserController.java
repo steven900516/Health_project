@@ -49,7 +49,6 @@ public class UserController {
             userService.registUser(user);
             return JsonResponse.successMessage("success");
         }
-
     }
 
 
@@ -80,6 +79,7 @@ public class UserController {
             return JsonResponse.success(userStates);
         }
 
+
     }
 
 
@@ -99,6 +99,27 @@ public class UserController {
             return JsonResponse.failure("fail");
         }
         return JsonResponse.successMessage(code);
+    }
+
+
+
+    @RequestMapping(value = "/updateName",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "修改用户名", notes = "参数包含（id,newName）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "用户id",  dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "newName", value = "新的用户名字",  dataType = "String")
+    })
+    @ApiResponses({ @ApiResponse(code = 200, message = "success修改成功;false修改失败")})
+    private JsonResponse updateName(@RequestParam(value = "id") Integer  id,@RequestParam(value = "newName") String newName){
+
+
+        try {
+            userService.updateUser(id,newName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonResponse.success("false");
+        }
+        return JsonResponse.successMessage("success");
     }
 
 

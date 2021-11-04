@@ -42,6 +42,9 @@ public class Question extends Model<Question> {
     @TableField(value = "question_uid")
     private String questionUid;
 
+    @TableField(value = "question_username")
+    private String questionUserName;
+
 
     @TableField(exist = false)
     private int like;

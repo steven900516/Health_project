@@ -30,7 +30,7 @@ public class AnswerController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType="query", name = "questionId", value = "问题id", required = false, dataType = "Integer"),
             @ApiImplicitParam(paramType="query", name = "userId", value = "用户id", required = false, dataType = "Integer"),
-            @ApiImplicitParam(paramType="query", name = "userName", value = "用户id", required = false, dataType = "String"),
+            @ApiImplicitParam(paramType="query", name = "userName", value = "用户名字", required = false, dataType = "String"),
             @ApiImplicitParam(paramType="query", name = "answerContent", value = "回答内容", required = false, dataType = "String")
     })
     @ApiResponses({ @ApiResponse(code = 200, message = "若发布解答成功，返回success;若发布解答失败，返回false")})
