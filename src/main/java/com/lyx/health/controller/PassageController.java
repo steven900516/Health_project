@@ -103,4 +103,16 @@ public class PassageController {
     }
 
 
+    @RequestMapping(value = "/cancleLike",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "文章取消点赞", notes = "参数包含文章id（id）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "文章id",  dataType = "Integer")
+
+    })
+    private JsonResponse cancleLike(@RequestParam(value = "id") Integer id){
+        int count = passageService.cancleLike(id);
+        return JsonResponse.success(count);
+    }
+
+
 }

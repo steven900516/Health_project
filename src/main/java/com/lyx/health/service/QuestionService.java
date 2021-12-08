@@ -30,4 +30,6 @@ public interface QuestionService extends IService<Question> {
 
 
     public Question oneQuestion(int id);
+
+    public int cancleLike(int id);
 }

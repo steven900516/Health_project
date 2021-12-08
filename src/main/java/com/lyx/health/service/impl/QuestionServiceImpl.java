@@ -141,5 +141,17 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     }
 
+    @Override
+    public int cancleLike(int id) {
+        String key = "like-" + id;
+        int count = Integer.parseInt(redisService.get(key));
+        if(count <= 0){
+            return 0;
+        }else{
+            redisService.decrement(key,1l);
+        }
+        return Integer.parseInt(redisService.get(key));
+    }
+
 
 }

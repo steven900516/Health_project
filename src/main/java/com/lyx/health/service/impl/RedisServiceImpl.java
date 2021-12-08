@@ -18,6 +18,7 @@ public class RedisServiceImpl implements RedisService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
     @Override
     public void set(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
@@ -43,5 +44,10 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Long increment(String key, long delta) {
         return stringRedisTemplate.opsForValue().increment(key,delta);
+    }
+
+    @Override
+    public Long decrement(String key, long delta) {
+        return stringRedisTemplate.opsForValue().decrement(key,delta);
     }
 }

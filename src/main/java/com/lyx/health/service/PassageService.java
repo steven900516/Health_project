@@ -28,4 +28,6 @@ public interface PassageService extends IService<Passage> {
 
 
     public Passage onePassage(int id);
+
+    public int cancleLike(int id);
 }

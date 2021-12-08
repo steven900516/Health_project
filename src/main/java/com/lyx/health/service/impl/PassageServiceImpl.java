@@ -121,5 +121,16 @@ public class PassageServiceImpl extends ServiceImpl<PassageMapper, Passage> impl
         return one;
     }
 
+    @Override
+    public int cancleLike(int id) {
+        Integer s = Integer.parseInt(redisService.get("passageLike-" + id));
+        if(s <= 0){
+            return 0;
+        }else{
+            redisService.decrement("passageLike-" + id,1l);
+        }
+        return Integer.parseInt(redisService.get("passageLike-" + id));
+    }
+
 
 }

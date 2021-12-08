@@ -103,4 +103,15 @@ public class QuestionController {
     }
 
 
+    @RequestMapping(value = "/cancleLike",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "问答取消点赞", notes = "参数包含问答id（id），code字段为正确响应码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "id", value = "问答id", required = false, dataType = "Integer")})
+    @ApiResponses({ @ApiResponse(code = 200, message = "若取消点赞成功，返回原来点赞数 - 1;若点赞为0，返回0")})
+    private JsonResponse cancleLike(@RequestParam(value = "id") Integer id){
+        int count = questionService.cancleLike(id);
+        return JsonResponse.success(count);
+    }
+
+
 }
