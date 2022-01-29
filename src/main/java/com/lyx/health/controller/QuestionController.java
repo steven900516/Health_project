@@ -2,11 +2,10 @@ package com.lyx.health.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lyx.health.entity.Question;
-import com.lyx.health.mapper.QuestionMapper;
 import com.lyx.health.service.QuestionService;
-import com.lyx.health.service.RedisService;
 import com.lyx.health.util.JsonResponse;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +20,10 @@ import java.util.List;
 @RequestMapping("/question")
 @CrossOrigin(origins = "*")
 @Api(tags = { "问答访问接口" })
+@Slf4j
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
-
 
 
 
@@ -113,5 +112,15 @@ public class QuestionController {
         return JsonResponse.success(count);
     }
 
+
+//    @RequestMapping(value = "/testLimit")
+//    @ApiOperation(value = "限流接口", notes = "无参数")
+//    @ApiImplicitParams({})
+//    @Limit(key = "testLimit", permitsPerSecond = 1, timeout = 500, timeunit = TimeUnit.MILLISECONDS,msg = "当前排队人数较多，请稍后再试！")
+//    private String testlimit(){
+//
+//        log.info("令牌桶limit获取令牌成功");
+//        return "ok";
+//    }
 
 }

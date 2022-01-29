@@ -2,6 +2,7 @@ package com.lyx.health.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lyx.health.annotation.SensitiveFilter;
 import com.lyx.health.entity.Answer;
 import com.lyx.health.mapper.AnswerMapper;
 import com.lyx.health.service.AnswerService;
@@ -27,9 +28,16 @@ public class AnswerServiceImpl extends ServiceImpl<AnswerMapper, Answer> impleme
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private SensitiveFilter sensitiveFilter;
+
     @Override
     public String sendAnswer(Answer answer) {
+        if(answer.getAnswerContent().length() > 50){
+            return "false";
+        }
         answer.setAnswerTime(new Date());
+        answer.setAnswerContent(sensitiveFilter.filter(answer.getAnswerContent()));
         try {
             answerMapper.insert(answer);
         } catch (Exception e) {
