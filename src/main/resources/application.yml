@@ -30,6 +30,9 @@ spring:
     host: smtp.qq.com
     port: 587
 
+  aop:
+    proxy-target-class: true
+    auto: true
 
 
 
@@ -38,9 +41,9 @@ mybatis:
   mapper-locations: classpath:Mapper/*.xml
 
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
 
 
 

@@ -1,6 +1,7 @@
 package com.lyx.health.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyx.health.annotation.LogInfo;
 import com.lyx.health.entity.Question;
 import com.lyx.health.service.QuestionService;
 import com.lyx.health.util.JsonResponse;
@@ -81,6 +82,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/questionsOfOnePerson",method = {RequestMethod.POST,RequestMethod.GET})
     @ApiOperation(value = "展示一个人发布的所有问题", notes = "参数包含用户id（questionUid）")
+    @LogInfo(methodName = "展示一个人发布的所有问题")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType="query", name = "questionUid", value = "用户id", required = false, dataType = "Integer")
     })
@@ -113,14 +115,6 @@ public class QuestionController {
     }
 
 
-//    @RequestMapping(value = "/testLimit")
-//    @ApiOperation(value = "限流接口", notes = "无参数")
-//    @ApiImplicitParams({})
-//    @Limit(key = "testLimit", permitsPerSecond = 1, timeout = 500, timeunit = TimeUnit.MILLISECONDS,msg = "当前排队人数较多，请稍后再试！")
-//    private String testlimit(){
-//
-//        log.info("令牌桶limit获取令牌成功");
-//        return "ok";
-//    }
+
 
 }

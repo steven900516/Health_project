@@ -2,6 +2,7 @@ package com.lyx.health.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyx.health.annotation.LogInfo;
 import com.lyx.health.entity.Passage;
 import com.lyx.health.mapper.PassageMapper;
 import com.lyx.health.service.PassageService;
@@ -29,9 +30,9 @@ import java.util.List;
 @Api(value = "心理文章api",tags = { "文章访问接口" })
 public class PassageController {
     @Autowired
-    private PassageService passageService;
+    public PassageService passageService;
     @Autowired
-    private RedisService redisService;
+    public RedisService redisService;
 
 
     @RequestMapping(value = "/listAll",method = {RequestMethod.POST,RequestMethod.GET})
@@ -91,14 +92,13 @@ public class PassageController {
     }
 
 
-
+    @LogInfo(methodName = "根据id获取一篇文章")
     @RequestMapping(value = "/onePassage",method = {RequestMethod.POST,RequestMethod.GET})
     @ApiOperation(value = "根据id获取一篇文章", notes = "参数包含（id）")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType="query", name = "id", value = "文章id",  dataType = "Integer")
-
     })
-    private JsonResponse onePassage(@RequestParam(value = "id") Integer id){
+    public JsonResponse onePassage(@RequestParam(value = "id") Integer id){
         return JsonResponse.success(passageService.onePassage(id));
     }
 

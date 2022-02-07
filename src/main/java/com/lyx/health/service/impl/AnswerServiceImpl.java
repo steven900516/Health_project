@@ -2,7 +2,7 @@ package com.lyx.health.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lyx.health.annotation.SensitiveFilter;
+import com.lyx.health.util.SensitiveFilter;
 import com.lyx.health.entity.Answer;
 import com.lyx.health.mapper.AnswerMapper;
 import com.lyx.health.service.AnswerService;

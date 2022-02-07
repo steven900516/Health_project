@@ -1,4 +1,4 @@
-package com.lyx.health.annotation;
+package com.lyx.health.util;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;

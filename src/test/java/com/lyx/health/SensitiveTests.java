@@ -1,6 +1,6 @@
 package com.lyx.health;
 
-import com.lyx.health.annotation.SensitiveFilter;
+import com.lyx.health.util.SensitiveFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

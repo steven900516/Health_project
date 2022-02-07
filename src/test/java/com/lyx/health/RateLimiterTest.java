@@ -21,6 +21,7 @@ public class RateLimiterTest {
         //RateLimiter limiter = RateLimiter.create(10,2, TimeUnit.SECONDS);//QPS 100
         RateLimiter limiter = RateLimiter.create(10);
         long start = System.currentTimeMillis();
+        Thread.sleep(1000);
         for (int i= 0; i < 30; i++) {
 //            double time = limiter.acquire();
             long after = System.currentTimeMillis() - start;
